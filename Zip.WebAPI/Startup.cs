@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Zip.WebAPI.Context;
+using Zip.WebAPI.Data;
 
 namespace Zip.WebAPI
 {
@@ -33,6 +33,7 @@ namespace Zip.WebAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.ApplyMigrations();
             }
 
             app.UseHttpsRedirection();

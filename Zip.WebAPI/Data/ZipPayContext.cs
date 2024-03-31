@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Zip.WebAPI.Models;
 
-namespace Zip.WebAPI.Context
+namespace Zip.WebAPI.Data
 {
     public partial class ZipPayContext : DbContext
     {
@@ -23,7 +23,7 @@ namespace Zip.WebAPI.Context
             {
                 entity.ToTable("accounts");
 
-                entity.HasIndex(e => e.Userid, "accounts_userid_unique")
+                entity.HasIndex(e => e.UserId, "accounts_userid_unique")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -32,11 +32,11 @@ namespace Zip.WebAPI.Context
                     .HasMaxLength(50)
                     .HasColumnName("description");
 
-                entity.Property(e => e.Userid).HasColumnName("userid");
+                entity.Property(e => e.UserId).HasColumnName("userid");
 
                 entity.HasOne(d => d.User)
                     .WithOne(p => p.Account)
-                    .HasForeignKey<Account>(d => d.Userid)
+                    .HasForeignKey<Account>(d => d.UserId)
                     .HasConstraintName("accounts_users_fk");
             });
 
