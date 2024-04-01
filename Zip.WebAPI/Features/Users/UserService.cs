@@ -22,6 +22,13 @@ public class UserService : IUserService
         return user;
     }
 
+    public async Task<bool> IsEmailUnique(string email)
+    {
+        var result = await _context.Users
+            .FirstOrDefaultAsync(user => user.Email.Equals(email));
+        return result is null;
+    }
+
     public async Task<User> CreateUser(User user)
     {
         await _context.Users.AddAsync(user);
