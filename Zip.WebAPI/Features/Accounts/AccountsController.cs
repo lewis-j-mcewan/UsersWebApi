@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Zip.WebAPI.Features.Accounts.Exceptions;
 using Zip.WebAPI.Models;
 
 namespace Zip.WebAPI.Features.Accounts;
@@ -30,7 +31,7 @@ public class AccountsController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(ex);
+            return BadRequest("Could not return accounts user");
         }
     }
 
@@ -41,12 +42,20 @@ public class AccountsController : ControllerBase
         try
         {
             var result = await _mediator.Send(body);
-            string location =  "/" + ControllerContext.ActionDescriptor.ControllerName + "/" + result.Id;
+            string location = "/" + ControllerContext.ActionDescriptor.ControllerName + "/" + result.Id;
             return Created(location, result);
+        }
+        catch (UserNotFoundException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+        catch (InsufficientIncomeException ex)
+        {
+            return BadRequest(ex.Message);
         }
         catch (Exception ex)
         {
-            return BadRequest(ex);
+            return BadRequest(ex.Message);
         }
     }
 }

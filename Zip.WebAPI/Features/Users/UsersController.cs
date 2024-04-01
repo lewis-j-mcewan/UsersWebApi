@@ -30,7 +30,7 @@ public class UsersController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(ex);
+            return BadRequest("The user could not be added");
         }
     }
 }

@@ -1,7 +1,7 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using Zip.WebAPI.Features.Accounts.Exceptions;
 using Zip.WebAPI.Models;
 using Zip.WebAPI.ServiceManager;
 
@@ -27,12 +27,12 @@ public class CreateAccountCommand : IRequest<AccountDto>
             
             if (user is null)
             {
-                throw new Exception();
+                throw new UserNotFoundException(request.UserId);
             }
 
             if (user.Salary - user.Expenses < 1000)
             {
-                throw new Exception();
+                throw new InsufficientIncomeException();
             }
             
             var account = new Account
