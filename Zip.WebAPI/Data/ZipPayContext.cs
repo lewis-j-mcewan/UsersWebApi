@@ -47,7 +47,9 @@ namespace Zip.WebAPI.Data
                 entity.HasIndex(e => e.Email, "users_email_key")
                     .IsUnique();
 
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.Id)
+                    .UseIdentityAlwaysColumn()
+                    .HasColumnName("id");
 
                 entity.Property(e => e.Email)
                     .IsRequired()
