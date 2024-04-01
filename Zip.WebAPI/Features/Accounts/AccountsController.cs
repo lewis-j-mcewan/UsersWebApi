@@ -5,22 +5,22 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Zip.WebAPI.Models;
 
-namespace Zip.WebAPI.Features.Users;
+namespace Zip.WebAPI.Features.Accounts;
 
 [Route("api/[controller]")]
 [ApiController]
-public class UsersController : ControllerBase
+public class AccountsController : ControllerBase
 {
     private readonly IMediator _mediator;
-
-    public UsersController(IMediator mediator)
+    
+    public AccountsController(IMediator mediator)
     {
         _mediator = mediator;
     }
 
     [HttpPost]
-    [ProducesResponseType(typeof(UserDto), StatusCodes.Status201Created)]
-    public async Task<IActionResult> CreateUserAsync([FromBody] CreateUserCommand body)
+    [ProducesResponseType(typeof(AccountDto), StatusCodes.Status201Created)]
+    public async Task<IActionResult> CreateAccountAsync([FromBody] CreateAccountCommand body)
     {
         try
         {

@@ -11,6 +11,6 @@ namespace Zip.WebAPI.Models
         public decimal Expenses { get; set; }
         public decimal Salary { get; set; }
 
-        public virtual Account Account { get; set; }
+        public virtual Account? Account { get; set; }
     }
 }
