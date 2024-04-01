@@ -24,7 +24,7 @@ public class CreateAccountCommand : IRequest<AccountDto>
         public async Task<AccountDto> Handle(CreateAccountCommand request, CancellationToken cancellationToken)
         {
             var user = _serviceManager.User.GetUser(request.UserId).Result;
-            
+            Console.WriteLine("1");
             if (user is null)
             {
                 throw new Exception();
@@ -34,22 +34,22 @@ public class CreateAccountCommand : IRequest<AccountDto>
             {
                 throw new Exception();
             }
-            
+            Console.WriteLine("2");
             var account = new Account
             {
                 UserId = request.UserId,
                 Description = request.Description
             };
-            
+            Console.WriteLine("3");
             var result = await _serviceManager.Account.CreateAccount(account);
-
+            Console.WriteLine("4");
             var accountDto = new AccountDto
             {
                 Id = result.Id,
                 UserId = result.UserId,
                 Description = result.Description
             };
-            
+            Console.WriteLine("5");
             return accountDto;
         }
     }

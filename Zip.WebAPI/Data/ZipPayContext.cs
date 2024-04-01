@@ -23,10 +23,9 @@ namespace Zip.WebAPI.Data
             {
                 entity.ToTable("accounts");
 
-                entity.HasIndex(e => e.UserId, "accounts_userid_unique")
-                    .IsUnique();
-
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.Id)
+                    .UseIdentityAlwaysColumn()
+                    .HasColumnName("id");
 
                 entity.Property(e => e.Description)
                     .HasMaxLength(50)
@@ -35,8 +34,8 @@ namespace Zip.WebAPI.Data
                 entity.Property(e => e.UserId).HasColumnName("userid");
 
                 entity.HasOne(d => d.User)
-                    .WithOne(p => p.Account)
-                    .HasForeignKey<Account>(d => d.UserId)
+                    .WithMany(p => p.Accounts)
+                    .HasForeignKey(d => d.UserId)
                     .HasConstraintName("accounts_users_fk");
             });
 

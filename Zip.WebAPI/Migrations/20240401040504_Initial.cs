@@ -14,11 +14,11 @@ namespace Zip.WebAPI.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityAlwaysColumn),
                     name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     email = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    expenses = table.Column<decimal>(type: "numeric(8,2)", precision: 8, scale: 2, nullable: true),
-                    salary = table.Column<decimal>(type: "numeric(8,2)", precision: 8, scale: 2, nullable: true)
+                    expenses = table.Column<decimal>(type: "numeric(8,2)", precision: 8, scale: 2, nullable: false),
+                    salary = table.Column<decimal>(type: "numeric(8,2)", precision: 8, scale: 2, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -30,7 +30,7 @@ namespace Zip.WebAPI.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityAlwaysColumn),
                     userid = table.Column<int>(type: "integer", nullable: false),
                     description = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true)
                 },
@@ -46,10 +46,9 @@ namespace Zip.WebAPI.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "accounts_userid_unique",
+                name: "IX_accounts_userid",
                 table: "accounts",
-                column: "userid",
-                unique: true);
+                column: "userid");
 
             migrationBuilder.CreateIndex(
                 name: "users_email_key",
