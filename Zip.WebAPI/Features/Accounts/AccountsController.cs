@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Zip.WebAPI.Features.Accounts.Exceptions;
 using Zip.WebAPI.Models;
 
@@ -14,10 +15,12 @@ namespace Zip.WebAPI.Features.Accounts;
 public class AccountsController : ControllerBase
 {
     private readonly IMediator _mediator;
+    private readonly ILogger _logger;
     
-    public AccountsController(IMediator mediator)
+    public AccountsController(IMediator mediator, ILogger<AccountsController> logger)
     {
         _mediator = mediator;
+        _logger = logger;
     }
 
     [HttpGet]
@@ -29,9 +32,14 @@ public class AccountsController : ControllerBase
             var result = await _mediator.Send(query);
             return Ok(result);
         }
+        catch (UserNotFoundException ex)
+        {
+            return NotFound(ex.Message);
+        }
         catch (Exception ex)
         {
-            return BadRequest("Could not return accounts user");
+            _logger.LogError("Could not return accounts for specified user: {error}", ex);
+            return BadRequest("Could not return accounts for user");
         }
     }
 
@@ -47,7 +55,7 @@ public class AccountsController : ControllerBase
         }
         catch (UserNotFoundException ex)
         {
-            return BadRequest(ex.Message);
+            return NotFound(ex.Message);
         }
         catch (InsufficientIncomeException ex)
         {
@@ -55,7 +63,8 @@ public class AccountsController : ControllerBase
         }
         catch (Exception ex)
         {
-            return BadRequest(ex.Message);
+            _logger.LogError("The account could not be created for the user: {error}", ex);
+            return BadRequest("The account could not be created");
         }
     }
 }

@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
@@ -9,6 +10,7 @@ namespace Zip.WebAPI.Features.Accounts;
 
 public class CreateAccountCommand : IRequest<AccountDto>
 {
+    [Required, Range(1, int.MaxValue, ErrorMessage = "The user ID must be a positive integer")]
     public int UserId { get; set; }
     public string Description { get; set; }
     
@@ -29,7 +31,7 @@ public class CreateAccountCommand : IRequest<AccountDto>
             {
                 throw new UserNotFoundException(request.UserId);
             }
-
+            
             if (user.Salary - user.Expenses < 1000)
             {
                 throw new InsufficientIncomeException();
