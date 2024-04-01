@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -16,6 +17,21 @@ public class AccountsController : ControllerBase
     public AccountsController(IMediator mediator)
     {
         _mediator = mediator;
+    }
+
+    [HttpGet]
+    [ProducesResponseType(typeof(IEnumerable<AccountDto>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetAccountsForUserAsync([FromQuery] GetAccountsForUserQuery query)
+    {
+        try
+        {
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex);
+        }
     }
 
     [HttpPost]

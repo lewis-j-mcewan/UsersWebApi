@@ -1,4 +1,7 @@
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Zip.WebAPI.Data;
 using Zip.WebAPI.Models;
 
@@ -12,7 +15,14 @@ public class AccountService : IAccountService
     {
         _context = context;
     }
-    
+
+    public async Task<IEnumerable<Account>> GetAccounts(int userId)
+    {
+        return await _context.Accounts
+            .Where(user => user.UserId == userId)
+            .ToListAsync();
+    }
+
     public async Task<Account> CreateAccount(Account account)
     {
         await _context.Accounts.AddAsync(account);
