@@ -20,7 +20,7 @@ public class UsersTests
     {
         //Arrange
         var command = new CreateUserCommand{ Name = "test", Email = "test@test.com", Expenses = 100, Salary = 100};
-        var handler = new CreateUserCommand.Handler(_serviceManager);
+        var handler = new CreateUserCommandHandler(_serviceManager);
         
         _serviceManager.User.IsEmailUnique(command.Email).Returns(true);
         _serviceManager.User.CreateUser(Arg.Any<User>()).Returns(new User
@@ -116,7 +116,7 @@ public class UsersTests
     {
         //Arrange
         var command = new CreateUserCommand{ Name = "test", Email = "test@test.com", Expenses = 100, Salary = 100};
-        var handler = new CreateUserCommand.Handler(_serviceManager);
+        var handler = new CreateUserCommandHandler(_serviceManager);
         
         _serviceManager.User.IsEmailUnique(command.Email).Returns(false);
         

@@ -17,15 +17,14 @@ public class UserService : IUserService
 
     public async Task<User> GetUser(int userId)
     {
-        var user = await _context.Users
-            .FirstOrDefaultAsync(user => user.Id == userId);
+        var user = await _context.Users.SingleOrDefaultAsync(user => user.Id == userId);
         return user;
     }
 
     public async Task<bool> IsEmailUnique(string email)
     {
         var result = await _context.Users
-            .FirstOrDefaultAsync(user => user.Email.Equals(email));
+            .SingleOrDefaultAsync(user => user.Email.Equals(email));
         return result is null;
     }
 

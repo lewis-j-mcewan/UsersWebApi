@@ -22,7 +22,7 @@ public class AccountsTests
     {
         //Arrange
         var command = new GetAccountsForUserQuery{ UserId = 1 };
-        var handler = new GetAccountsForUserQuery.Handler(_serviceManager);
+        var handler = new GetAccountsForUserQueryHandler(_serviceManager);
         
         _serviceManager.User.GetUser(command.UserId).Returns(new User
             { Id = 1, Email = "test@test.com", Name = "test", Expenses = 0, Salary = 1000 });
@@ -59,7 +59,7 @@ public class AccountsTests
     {
         //Arrange
         var command = new GetAccountsForUserQuery{ UserId = 1 };
-        var handler = new GetAccountsForUserQuery.Handler(_serviceManager);
+        var handler = new GetAccountsForUserQueryHandler(_serviceManager);
         _serviceManager.User.GetUser(command.UserId).ReturnsNull();
         
         //Act
@@ -74,11 +74,11 @@ public class AccountsTests
     {
         //Arrange
         var command = new CreateAccountCommand { UserId = 1, Description = "test1" };
-        var handler = new CreateAccountCommand.Handler(_serviceManager);
+        var handler = new CreateAccountCommandHandler(_serviceManager);
         
         _serviceManager.User.GetUser(command.UserId).Returns(new User
             { Id = 1, Email = "test@test.com", Name = "test", Expenses = 0, Salary = 1000 });
-
+    
         _serviceManager.Account.CreateAccount(Arg.Any<Account>())
             .Returns(new Account { Id = 1, UserId = 1, Description = "test1" });
         
@@ -124,7 +124,7 @@ public class AccountsTests
             UserId = 1,
             Description = "test1"
         };
-        var handler = new CreateAccountCommand.Handler(_serviceManager);
+        var handler = new CreateAccountCommandHandler(_serviceManager);
         _serviceManager.User.GetUser(command.UserId).ReturnsNull();
         
         //Act
@@ -143,7 +143,7 @@ public class AccountsTests
             UserId = 1,
             Description = "test1"
         };
-        var handler = new CreateAccountCommand.Handler(_serviceManager);
+        var handler = new CreateAccountCommandHandler(_serviceManager);
         _serviceManager.User.GetUser(command.UserId).Returns(new User
             { Id = 1, Email = "test@test.com", Name = "test", Expenses = 1, Salary = 1000 });
         
